@@ -9,9 +9,9 @@ export default class extends BaseSeeder {
     if (exist) return
 
     await User.create({
-      email: 'admin@jedais.com.br',
-      password: 'admin@jedais',
-      name: 'Jedais Administrador',
+      email: 'administrador@indiosm.com',
+      password: 'administrador@indiosm.com',
+      name: 'Administrador',
       role: Role.ADMIN,
     })
   }
