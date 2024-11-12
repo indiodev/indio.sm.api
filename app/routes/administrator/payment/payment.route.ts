@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-const AdministratorResponsibleController = () =>
-  import('#controllers/administrator/responsible/responsible.controller')
-const AdministratorPaymentController = () =>
+type AdministradorPaymentImport =
+  typeof import('#controllers/administrator/payment/payment.controller')
+const AdministratorPaymentController = (): Promise<AdministradorPaymentImport> =>
   import('#controllers/administrator/payment/payment.controller')
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'

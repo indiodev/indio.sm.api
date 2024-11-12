@@ -3,6 +3,7 @@ import ApplicationException from '#exceptions/application.exception'
 import Model from '#models/payment.model'
 import stringHelpers from '@adonisjs/core/helpers/string'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
+import { DateTime } from 'luxon'
 
 export default class PaymentRepository {
   constructor() {}
@@ -35,7 +36,9 @@ export default class PaymentRepository {
         status: 400,
       })
 
-    const [value] = Object.values(payload).map((item) => item !== null && item)
+    const [value] = Object.values(payload).map(
+      (item) => item !== null && item && !(item instanceof DateTime)
+    )
     const [key] = Object.keys(payload).map((k) => stringHelpers.snakeCase(k))
     const entity = await Model?.query().where(key, value).first()
 
