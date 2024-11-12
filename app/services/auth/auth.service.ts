@@ -20,7 +20,8 @@ export class AuthService {
   async signIn({ access, ...payload }: AuthSignIn): Promise<Token> {
     let user: User | null | undefined
 
-    if (access === Role.ADMIN) user = await this.userRepository.findBy({ email: payload.login })
+    if (access === Role.ADMINISTRATOR)
+      user = await this.userRepository.findBy({ email: payload.login })
 
     if (access === Role.RESPONSIBLE) {
       const responsible = await this.responsibleRepository.findBy({
@@ -76,7 +77,7 @@ export class AuthService {
     const created = await this.userRepository.create({
       ...payload,
       ...(access === Role.RESPONSIBLE && { role: Role.RESPONSIBLE }),
-      ...(access === Role.ADMIN && { role: Role.ADMIN }),
+      ...(access === Role.ADMINISTRATOR && { role: Role.ADMINISTRATOR }),
     })
 
     if (access === Role.RESPONSIBLE) {

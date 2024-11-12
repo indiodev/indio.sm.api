@@ -12,7 +12,7 @@ export default class extends BaseSeeder {
       email: 'administrador@indiosm.com',
       password: 'administrador@indiosm.com',
       name: 'Administrador',
-      role: Role.ADMIN,
+      role: Role.ADMINISTRATOR,
     })
   }
 }
