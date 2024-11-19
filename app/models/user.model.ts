@@ -7,6 +7,7 @@ import { compose } from '@adonisjs/core/helpers'
 import hash from '@adonisjs/core/services/hash'
 import { column, hasOne } from '@adonisjs/lucid/orm'
 import type { HasOne } from '@adonisjs/lucid/types/relations'
+import Code from './code.model.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -30,4 +31,7 @@ export default class User extends compose(Base, AuthFinder) {
 
   @hasOne(() => Responsible)
   declare responsible: HasOne<typeof Responsible>
+
+  @hasOne(() => Code)
+  declare code: HasOne<typeof Code>
 }

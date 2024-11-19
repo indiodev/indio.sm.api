@@ -35,4 +35,9 @@ export default await Env.create(new URL('../', import.meta.url), {
   STORE_SECRET_ACCESS_KEY: Env.schema.string(),
   STORE_DEFAULT_REGION: Env.schema.string(),
   STORE_BUCKET_NAME: Env.schema.string(),
+
+  // Paulo criou, ver se faz sentido
+  APP_NAME: Env.schema.string(),
+  SEND_GRID_API_KEY: Env.schema.string(),
+  FRONTEND_URL: Env.schema.string(),
 })
