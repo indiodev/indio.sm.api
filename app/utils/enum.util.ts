@@ -1,6 +1,8 @@
 export enum Role {
   ADMINISTRATOR = 'ADMINISTRATOR',
   RESPONSIBLE = 'RESPONSIBLE',
+  SCHOOL = 'SCHOOL',
+  STUDENT = 'STUDENT',
 }
 
 export enum PaymentStatus {
