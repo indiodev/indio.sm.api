@@ -8,7 +8,7 @@ export default class Student extends Base {
   declare phone: string
 
   @column()
-  declare cnpj: string
+  declare cpf: string
 
   @column({
     columnName: 'user_id',

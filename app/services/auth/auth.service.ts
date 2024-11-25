@@ -1,9 +1,13 @@
 import { AuthCheckExistField, AuthSignIn, AuthSignUp, Token } from '#dtos/auth.dto'
 import ApplicationException from '#exceptions/application.exception'
 import Responsible from '#models/responsible.model'
+import School from '#models/school.model'
+import Student from '#models/student.model'
 import User from '#models/user.model'
 import AuthRepository from '#repositories/auth.repository'
 import ResponsibleRepository from '#repositories/responsible.repository'
+import SchoolRepository from '#repositories/school.repository'
+import StudentRepository from '#repositories/student.repository'
 import UserRepository from '#repositories/user.repository'
 import { Role } from '#utils/enum.util'
 import { NumberNormalizer } from '#utils/function.util'
@@ -14,7 +18,9 @@ export class AuthService {
   constructor(
     private userRepository: UserRepository,
     private authRepository: AuthRepository,
-    private responsibleRepository: ResponsibleRepository
+    private responsibleRepository: ResponsibleRepository,
+    private schoolRepository: SchoolRepository,
+    private studentRepository: StudentRepository
   ) {}
 
   async signIn({ access, ...payload }: AuthSignIn): Promise<Token> {
@@ -28,6 +34,20 @@ export class AuthService {
         cpf: NumberNormalizer(payload.login),
       })
       user = await responsible?.related('user').query().first()
+    }
+
+    if (access === Role.STUDENT) {
+      const student = await this.studentRepository.findBy({
+        cpf: NumberNormalizer(payload.login),
+      })
+      user = await student?.related('user').query().first()
+    }
+
+    if (access === Role.SCHOOL) {
+      const school = await this.schoolRepository.findBy({
+        cnpj: NumberNormalizer(payload.login),
+      })
+      user = await school?.related('user').query().first()
     }
 
     if (!user)
@@ -52,7 +72,7 @@ export class AuthService {
     return await this.authRepository.create(user)
   }
 
-  async signUp({ access, responsible, ...payload }: AuthSignUp): Promise<User> {
+  async signUp({ access, responsible, school, student, ...payload }: AuthSignUp): Promise<User> {
     const user = await this.userRepository.findBy({ email: payload.email })
 
     if (user)
@@ -62,10 +82,14 @@ export class AuthService {
         status: 400,
       })
 
-    let exist: Responsible | null | undefined
+    let exist: Responsible | Student | School | null | undefined
 
     if (access === Role.RESPONSIBLE)
       exist = await this.responsibleRepository.findBy({ cpf: responsible?.cpf })
+
+    if (access === Role.SCHOOL) exist = await this.schoolRepository.findBy({ cnpj: school?.cnpj })
+
+    if (access === Role.STUDENT) exist = await this.studentRepository.findBy({ cpf: student?.cpf })
 
     if (exist)
       throw new ApplicationException('Dados já estão em uso', {
@@ -78,11 +102,23 @@ export class AuthService {
       ...payload,
       ...(access === Role.RESPONSIBLE && { role: Role.RESPONSIBLE }),
       ...(access === Role.ADMINISTRATOR && { role: Role.ADMINISTRATOR }),
+      ...(access === Role.STUDENT && { role: Role.STUDENT }),
+      ...(access === Role.SCHOOL && { role: Role.SCHOOL }),
     })
 
     if (access === Role.RESPONSIBLE) {
       await created?.related('responsible').create(responsible!)
       await created.load('responsible')
+    }
+
+    if (access === Role.SCHOOL) {
+      await created?.related('school').create(school!)
+      await created.load('school')
+    }
+
+    if (access === Role.STUDENT) {
+      await created?.related('student').create(student!)
+      await created.load('student')
     }
 
     return created
