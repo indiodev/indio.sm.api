@@ -1,5 +1,7 @@
 import Base from '#models/base.model'
 import Responsible from '#models/responsible.model'
+import School from '#models/school.model'
+import Student from '#models/student.model'
 import { Role } from '#utils/enum.util'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
@@ -7,8 +9,6 @@ import { compose } from '@adonisjs/core/helpers'
 import hash from '@adonisjs/core/services/hash'
 import { column, hasOne } from '@adonisjs/lucid/orm'
 import type { HasOne } from '@adonisjs/lucid/types/relations'
-import School from '#models/school.model'
-import Student from '#models/student.model'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
