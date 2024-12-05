@@ -11,7 +11,7 @@ export default class extends BaseSeeder {
     await User.create({
       email: 'master@escolarize.com',
       password: 'master@escolarize.com',
-      name: 'Administrador',
+      name: 'Administrador Master',
       role: Role.ADMINISTRATOR,
     })
   }
