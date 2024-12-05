@@ -9,6 +9,7 @@ import ResponsibleRepository from '#repositories/responsible.repository'
 import SchoolRepository from '#repositories/school.repository'
 import StudentRepository from '#repositories/student.repository'
 import UserRepository from '#repositories/user.repository'
+import EmailService from '#services/email.service'
 import { Role } from '#utils/enum.util'
 import { NumberNormalizer } from '#utils/function.util'
 import { inject } from '@adonisjs/core'
@@ -20,7 +21,8 @@ export class AuthService {
     private authRepository: AuthRepository,
     private responsibleRepository: ResponsibleRepository,
     private schoolRepository: SchoolRepository,
-    private studentRepository: StudentRepository
+    private studentRepository: StudentRepository,
+    private emailService: EmailService
   ) {}
 
   async signIn({ access, ...payload }: AuthSignIn): Promise<Token> {
@@ -121,6 +123,7 @@ export class AuthService {
       await created.load('student')
     }
 
+    await this.emailService.sendConfirmationSingUpEmail(created)
     return created
   }
 
