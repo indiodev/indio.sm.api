@@ -1,8 +1,8 @@
 import { Token } from '#dtos/auth.dto'
 import ApplicationException from '#exceptions/application.exception'
-import AuthRepository from '#repositories/auth.repository'
-import CodeRepository from '#repositories/code.repository'
-import UserRepository from '#repositories/user.repository'
+import AuthRepository from '#repositories/lucid/auth.repository'
+import CodeRepository from '#repositories/lucid/code.repository'
+import UserRepository from '#repositories/lucid/user.repository'
 import EmailService from '#services/email.service'
 import { inject } from '@adonisjs/core'
 
@@ -16,7 +16,7 @@ export class AuthRecoveryService {
   ) {}
 
   async generateAndSendCode({ email }: { email: string }): Promise<void> {
-    const user = await this.userRepository.findBy({ email })
+    const user = await this.userRepository.findByEmail(email)
 
     if (!user)
       throw new ApplicationException('E-mail não encontrado', {
@@ -33,7 +33,7 @@ export class AuthRecoveryService {
   }
 
   async verifyCode(payload: { code: string }): Promise<Token> {
-    const code = await this.codeRepository.findBy({ identifier: payload.code })
+    const code = await this.codeRepository.findByIdentifier(payload.code)
     if (!code) {
       throw new ApplicationException('Código inválido', {
         cause: 'Invalid code',
@@ -62,7 +62,7 @@ export class AuthRecoveryService {
   }
 
   async resetPassword(payload: { password: string; id: number }): Promise<void> {
-    const user = await this.userRepository.findBy({ id: payload.id })
+    const user = await this.userRepository.findById(payload.id)
 
     if (!user)
       throw new ApplicationException('Usuário não encontrado', {

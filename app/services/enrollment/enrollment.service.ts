@@ -1,8 +1,9 @@
 import { Enrollment } from '#dtos/enrollment.dto'
-import ResponsibleRepository from '#repositories/responsible.repository'
-import StudentRepository from '#repositories/student.repository'
+import ResponsibleRepository from '#repositories/lucid/responsible.repository'
+import StudentRepository from '#repositories/lucid/student.repository'
 import ResponsibleService from '#services/responsible/responsible.service'
 import StudentService from '#services/student/student.service'
+import { NumberNormalizer } from '#utils/function.util'
 import { inject } from '@adonisjs/core'
 
 @inject()
@@ -15,7 +16,7 @@ export default class EnrollmentService {
   ) {}
 
   async createOrUpdate(payload: Enrollment): Promise<Enrollment> {
-    const student = await this.studentRepository.findBy({ cpf: payload.student.cpf })
+    const student = await this.studentRepository.findByCPF(NumberNormalizer(payload.student.cpf))
 
     const updatedStudent = student
       ? await this.studentService.update({
@@ -30,7 +31,9 @@ export default class EnrollmentService {
           // address: payload.address,
         })
 
-    const responsible = await this.responsibleRepository.findBy({ cpf: payload.responsible.cpf })
+    const responsible = await this.responsibleRepository.findByCPF(
+      NumberNormalizer(payload.responsible.cpf)
+    )
 
     const updatedResponsible = responsible
       ? await this.responsibleService.update({ ...responsible, ...payload.responsible })

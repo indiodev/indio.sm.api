@@ -1,7 +1,7 @@
 import { CreateStudent } from '#dtos/student.dto'
 import Address from '#models/address'
 import User from '#models/user.model'
-import UserRepository from '#repositories/user.repository'
+import UserRepository from '#repositories/lucid/user.repository'
 import { Role } from '#utils/enum.util'
 import { inject } from '@adonisjs/core'
 
@@ -9,7 +9,6 @@ import { inject } from '@adonisjs/core'
 export default class StudentService {
   constructor(private userRepository: UserRepository) {}
 
-  // sei que ainda precisa arrumar a logica, mas mexi em bastante coisa e sou meio lento ainda para fazer as coisas, espero que a estrutura esteja boa.
   async create(payload: CreateStudent & { course_id: number; address?: Address }): Promise<User> {
     const created = await this.userRepository.create({
       ...payload,

@@ -25,7 +25,8 @@ export default class AuthController {
 
   async signOut({ response, auth, request }: HttpContext): Promise<void> {
     const payload = request.only(['expiresAt'])
-    await this.authService.signOut({ ...payload, userId: auth.user?.id! })
+    // await this.authService.signOut({ ...payload, userId: auth.user?.id! })
+    console.log('signOut', payload, auth.user?.id)
     return response.noContent()
   }
 

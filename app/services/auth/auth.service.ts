@@ -4,11 +4,11 @@ import Responsible from '#models/responsible.model'
 import School from '#models/school.model'
 import Student from '#models/student.model'
 import User from '#models/user.model'
-import AuthRepository from '#repositories/auth.repository'
-import ResponsibleRepository from '#repositories/responsible.repository'
-import SchoolRepository from '#repositories/school.repository'
-import StudentRepository from '#repositories/student.repository'
-import UserRepository from '#repositories/user.repository'
+import AuthRepository from '#repositories/lucid/auth.repository'
+import ResponsibleRepository from '#repositories/lucid/responsible.repository'
+import SchoolRepository from '#repositories/lucid/school.repository'
+import StudentRepository from '#repositories/lucid/student.repository'
+import UserRepository from '#repositories/lucid/user.repository'
 import EmailService from '#services/email.service'
 import { Role } from '#utils/enum.util'
 import { NumberNormalizer } from '#utils/function.util'
@@ -28,27 +28,22 @@ export class AuthService {
   async signIn({ access, ...payload }: AuthSignIn): Promise<Token> {
     let user: User | null | undefined
 
-    if (access === Role.ADMINISTRATOR)
-      user = await this.userRepository.findBy({ email: payload.login })
+    if (access === Role.ADMINISTRATOR) user = await this.userRepository.findByEmail(payload.login)
 
     if (access === Role.RESPONSIBLE) {
-      const responsible = await this.responsibleRepository.findBy({
-        cpf: NumberNormalizer(payload.login),
-      })
+      const responsible = await this.responsibleRepository.findByCPF(
+        NumberNormalizer(payload.login)
+      )
       user = await responsible?.related('user').query().first()
     }
 
     if (access === Role.STUDENT) {
-      const student = await this.studentRepository.findBy({
-        cpf: NumberNormalizer(payload.login),
-      })
+      const student = await this.studentRepository.findByCPF(NumberNormalizer(payload.login))
       user = await student?.related('user').query().first()
     }
 
     if (access === Role.SCHOOL) {
-      const school = await this.schoolRepository.findBy({
-        cnpj: NumberNormalizer(payload.login),
-      })
+      const school = await this.schoolRepository.findByCNPJ(NumberNormalizer(payload.login))
       user = await school?.related('user').query().first()
     }
 
@@ -75,7 +70,7 @@ export class AuthService {
   }
 
   async signUp({ access, responsible, school, student, ...payload }: AuthSignUp): Promise<User> {
-    const user = await this.userRepository.findBy({ email: payload.email })
+    const user = await this.userRepository.findByEmail(payload.email)
 
     if (user)
       throw new ApplicationException('E-mail já está em uso', {
@@ -87,11 +82,13 @@ export class AuthService {
     let exist: Responsible | Student | School | null | undefined
 
     if (access === Role.RESPONSIBLE)
-      exist = await this.responsibleRepository.findBy({ cpf: responsible?.cpf })
+      exist = await this.responsibleRepository.findByCPF(NumberNormalizer(responsible?.cpf!))
 
-    if (access === Role.SCHOOL) exist = await this.schoolRepository.findBy({ cnpj: school?.cnpj })
+    if (access === Role.SCHOOL)
+      exist = await this.schoolRepository.findByCNPJ(NumberNormalizer(school?.cnpj!))
 
-    if (access === Role.STUDENT) exist = await this.studentRepository.findBy({ cpf: student?.cpf })
+    if (access === Role.STUDENT)
+      exist = await this.studentRepository.findByCPF(NumberNormalizer(student?.cpf!))
 
     if (exist)
       throw new ApplicationException('Dados já estão em uso', {
@@ -127,13 +124,13 @@ export class AuthService {
     return created
   }
 
-  async signOut(payload: { userId: number; expiresAt: string }): Promise<void> {
-    await this.authRepository.revoke(payload)
-  }
+  // async signOut(payload: { userId: number; expiresAt: string }): Promise<void> {
+  //   await this.authRepository.revoke(payload)
+  // }
 
   async checkExistField({ access, ...payload }: AuthCheckExistField): Promise<void> {
     if (payload.email) {
-      const existEmail = await this.userRepository.findBy({ email: payload?.email })
+      const existEmail = await this.userRepository.findByEmail(payload?.email)
 
       if (existEmail)
         throw new ApplicationException('E-mail já está em uso', {
@@ -144,7 +141,7 @@ export class AuthService {
     }
 
     if (access === Role.RESPONSIBLE) {
-      const existCPF = await this.responsibleRepository.findBy({ cpf: payload?.cpf })
+      const existCPF = await this.responsibleRepository.findByCPF(NumberNormalizer(payload?.cpf!))
 
       if (existCPF)
         throw new ApplicationException('CPF já está em uso', {

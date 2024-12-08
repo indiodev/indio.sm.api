@@ -11,7 +11,7 @@ export default class Class extends Base {
     serializeAs: 'total_of_students',
     columnName: 'total_of_students',
   })
-  declare totalOfStudents: number
+  declare total_of_students: number
 
   @manyToMany(() => Course, {
     localKey: 'id',

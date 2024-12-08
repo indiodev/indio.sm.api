@@ -1,9 +1,9 @@
-import vine from '@vinejs/vine'
 import { Role } from '#utils/enum.util'
 import { NumberNormalizer } from '#utils/function.util'
 import { ResponsibleSchema } from '#validators/responsible.validator'
 import { SchoolSchema } from '#validators/school.validator'
 import { StudentSchema } from '#validators/student.validator'
+import vine from '@vinejs/vine'
 
 export const AuthSignInSchema = vine.object({
   access: vine.enum(Role),

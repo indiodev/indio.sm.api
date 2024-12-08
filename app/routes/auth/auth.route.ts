@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 const AuthController = () => import('#controllers/auth/auth.controller')
-const AuthRecoveryController = () => import('#controllers/auth/auth_recovery.controller')
+const AuthRecoveryController = () => import('#controllers/auth/auth-recovery.controller')
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 

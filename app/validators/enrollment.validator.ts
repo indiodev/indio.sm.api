@@ -1,7 +1,7 @@
-import vine from '@vinejs/vine'
-import { cpfValidatorRule } from './my_validations/index.js'
 import { NumberNormalizer } from '#utils/function.util'
+import vine from '@vinejs/vine'
 import { AddressSchema } from './address.validator.js'
+import { cpfValidatorRule } from './my_validations/index.js'
 import { CreateStudentSchema } from './student.validator.js'
 
 export const ResponsibleSchema = vine.object({

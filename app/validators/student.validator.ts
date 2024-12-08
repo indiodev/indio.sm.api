@@ -1,7 +1,7 @@
+import { Gender } from '#utils/constant'
 import { NumberNormalizer } from '#utils/function.util'
 import vine from '@vinejs/vine'
 import { cpfValidatorRule } from './my_validations/index.js'
-import { Gender } from '#utils/constant'
 
 export const StudentSchema = vine.object({
   phone: vine.string().trim().transform(NumberNormalizer),

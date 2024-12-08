@@ -1,8 +1,8 @@
 import { PaymentUpdate } from '#dtos/payment.dto'
-import { BasePaginate } from '#dtos/query.dto'
+import { BaseQueryPaginate } from '#dtos/query.dto'
 import ApplicationException from '#exceptions/application.exception'
 import Payment from '#models/payment.model'
-import PaymentRepository from '#repositories/payment.repository'
+import PaymentRepository from '#repositories/lucid/payment.repository'
 import { inject } from '@adonisjs/core'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 
@@ -10,12 +10,12 @@ import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 export class AdministratorPaymentService {
   constructor(private paymentRepository: PaymentRepository) {}
 
-  async paginate(query: BasePaginate): Promise<ModelPaginatorContract<Payment>> {
+  async paginate(query: BaseQueryPaginate): Promise<ModelPaginatorContract<Payment>> {
     return await this.paymentRepository.paginate(query)
   }
 
   async update(payload: PaymentUpdate): Promise<void> {
-    const payment = await this.paymentRepository.findBy({ id: payload.id })
+    const payment = await this.paymentRepository.findById(payload.id!)
 
     if (!payment)
       throw new ApplicationException('Mensalidade não encontrada', {

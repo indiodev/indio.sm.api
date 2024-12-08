@@ -1,4 +1,5 @@
-import { AuthRecoveryService } from '#services/auth/auth_recovery.service'
+/* eslint-disable @unicorn/filename-case */
+import { AuthRecoveryService } from '#services/auth/recovery.service'
 import { inject } from '@adonisjs/core'
 import { HttpContext } from '@adonisjs/core/http'
 
