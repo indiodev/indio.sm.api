@@ -10,6 +10,7 @@ import hash from '@adonisjs/core/services/hash'
 import { column, hasOne } from '@adonisjs/lucid/orm'
 import type { HasOne } from '@adonisjs/lucid/types/relations'
 import Code from './code.model.js'
+import Address from './address.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -30,6 +31,10 @@ export default class User extends compose(Base, AuthFinder) {
   declare role: Role
 
   static tokens = DbAccessTokensProvider.forModel(User)
+
+  // relations
+  @hasOne(() => Address)
+  declare address: HasOne<typeof Address>
 
   @hasOne(() => Responsible)
   declare responsible: HasOne<typeof Responsible>
