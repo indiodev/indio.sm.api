@@ -1,7 +1,6 @@
 import { NumberNormalizer } from '#utils/function.util'
 import vine from '@vinejs/vine'
 import { AddressSchema } from './address.validator.js'
-import { cpfValidatorRule } from './my_validations/index.js'
 import { CreateStudentSchema } from './student.validator.js'
 
 export const ResponsibleSchema = vine.object({
@@ -10,13 +9,15 @@ export const ResponsibleSchema = vine.object({
   phone_number: vine.string().trim().transform(NumberNormalizer),
   cpf: vine
     .string()
-    .use(
-      cpfValidatorRule({
-        minLength: 11,
-        requiredDifferentNumbers: true,
-        isValid: true,
-      })
-    )
+    .fixedLength(14)
+    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)
+    // .use(
+    //   cpfValidatorRule({
+    //     minLength: 11,
+    //     requiredDifferentNumbers: true,
+    //     isValid: true,
+    //   })
+    // )
     .transform(NumberNormalizer),
   rg: vine.string().trim(),
 })
