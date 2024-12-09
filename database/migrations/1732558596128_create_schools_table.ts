@@ -9,6 +9,7 @@ export default class extends BaseSchema {
 
       table.string('phone').notNullable()
       table.string('cnpj').notNullable()
+      table.string('slug').notNullable().unique()
 
       table
         .integer('user_id')

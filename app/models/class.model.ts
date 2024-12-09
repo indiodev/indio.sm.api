@@ -1,24 +1,79 @@
 import Base from '#models/base.model'
-import Course from '#models/course.model'
+import { TimeHourMinuteSerialize } from '#utils/function.util'
 import { column, manyToMany } from '@adonisjs/lucid/orm'
 import type { ManyToMany } from '@adonisjs/lucid/types/relations'
+import { DateTime } from 'luxon'
+import Course from './course.model.js'
+import Student from './student.model.js'
 
 export default class Class extends Base {
   @column()
-  declare name: string
+  declare code: string
+
+  @column()
+  declare capacity: number
 
   @column({
-    serializeAs: 'total_of_students',
-    columnName: 'total_of_students',
+    serializeAs: 'start_hour',
+    columnName: 'start_hour',
+    prepare: (v: DateTime) => v.toFormat('HH:mm:ss'),
+    serialize: TimeHourMinuteSerialize,
   })
-  declare total_of_students: number
+  declare start_hour: DateTime
+
+  @column({
+    serializeAs: 'final_hour',
+    columnName: 'final_hour',
+    prepare: (v: DateTime) => v.toFormat('HH:mm:ss'),
+    serialize: TimeHourMinuteSerialize,
+  })
+  declare final_hour: DateTime
+
+  @column({
+    serializeAs: 'number_of_student_accepted',
+    columnName: 'number_of_student_accepted',
+  })
+  declare number_of_student_accepted: number
+
+  @column({
+    serializeAs: 'number_of_student_on_reserve',
+    columnName: 'number_of_student_on_reserve',
+  })
+  declare number_of_student_on_reserve: number
+
+  @column({
+    serializeAs: 'school_id',
+    columnName: 'school_id',
+  })
+  declare schoolId: number
+
+  @column({
+    serializeAs: 'days_of_week',
+    columnName: 'days_of_week',
+  })
+  declare days_of_week: string
+
+  @column()
+  declare audience: string
 
   @manyToMany(() => Course, {
-    localKey: 'id',
-    relatedKey: 'id',
-    pivotForeignKey: 'class_id',
-    pivotRelatedForeignKey: 'course_id',
-    pivotTable: 'class_courses',
+    localKey: 'id', //chave da model pai (Class)
+    relatedKey: 'id', // chave da model relacionada (Course)
+    pivotForeignKey: 'class_id', // chave estrangeira Class -> Course
+    pivotRelatedForeignKey: 'course_id', // chave estrangeira Course -> Class
+    pivotTable: 'course_class', //
+    pivotTimestamps: true,
   })
   declare courses: ManyToMany<typeof Course>
+
+  @manyToMany(() => Student, {
+    localKey: 'id', //chave da model pai (Class)
+    relatedKey: 'id', // chave da model relacionada (Student)
+    pivotForeignKey: 'student_id', // chave estrangeira Student -> Class
+    pivotRelatedForeignKey: 'class_id', // chave estrangeira Class -> Student
+    pivotTable: 'student_class', //
+    pivotTimestamps: true,
+    pivotColumns: ['status'],
+  })
+  declare students: ManyToMany<typeof Student>
 }

@@ -10,13 +10,15 @@
 import '#routes/administrator/payment.route'
 import '#routes/administrator/responsible.route'
 import '#routes/authentication.route'
-import '#routes/enrollment.route'
-import '#routes/payment.route'
+import '#routes/enrollment/enrollment.route'
+import '#routes/enrollment/school.route'
+
+import '#routes/responsible/payment.route'
 
 import router from '@adonisjs/core/services/router'
 
 router.get('/', async () => {
   return {
-    message: 'Bem vindos ao JEDAIS API',
+    message: 'Bem vindos a Escolarize API',
   }
 })

@@ -40,4 +40,8 @@ export default class LucidSchoolRepository implements SchoolRepository {
   async findByCNPJ(cnpj: string): Promise<Model | null> {
     return await Model.query().where('cnpj', cnpj).first()
   }
+
+  async findBySlug(slug: string): Promise<Model | null> {
+    return await Model.query().where('slug', slug).first()
+  }
 }

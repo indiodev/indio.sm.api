@@ -5,7 +5,7 @@ type QueryProps<T extends LucidModel> = Omit<Model<T>, 'createdAt' | 'updatedAt'
 type QueryPaginateProps<T extends LucidModel> = Omit<Model<T>, 'createdAt' | 'updatedAt'> &
   BaseQueryPaginate
 
-type Model<T extends LucidModel> = ModelAttributes<InstanceType<T>>
+export type Model<T extends LucidModel> = ModelAttributes<InstanceType<T>>
 
 export type Create<T extends LucidModel> = Partial<Model<T>>
 export type Update<T extends LucidModel> = Partial<Model<T>>

@@ -13,4 +13,6 @@ export default abstract class SchoolRepository {
   ): Promise<ModelPaginatorContract<InstanceType<typeof School>>>
 
   abstract findByCNPJ(cnpj: string): Promise<InstanceType<typeof School> | null>
+
+  abstract findBySlug(cnpj: string): Promise<InstanceType<typeof School> | null>
 }

@@ -1,8 +1,9 @@
 import Base from '#models/base.model'
 import Payment from '#models/payment.model'
+import Student from '#models/student.model'
 import User from '#models/user.model'
-import { belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import { belongsTo, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 
 export default class Responsible extends Base {
   @column()
@@ -22,4 +23,17 @@ export default class Responsible extends Base {
 
   @hasMany(() => Payment)
   declare payments: HasMany<typeof Payment>
+
+  // @hasMany(() => Student)
+  // declare students: HasMany<typeof Student>
+
+  @manyToMany(() => Student, {
+    localKey: 'id', //chave da model pai (Responsible)
+    relatedKey: 'id', // chave da model relacionada (Student)
+    pivotForeignKey: 'student_id', // chave estrangeira student -> responsible
+    pivotRelatedForeignKey: 'responsible_id', // chave estrangeira responsible -> student
+    pivotTable: 'student_responsible', //
+    pivotTimestamps: true,
+  })
+  declare students: ManyToMany<typeof Student>
 }

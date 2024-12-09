@@ -33,14 +33,17 @@ export class AuthenticationSignUpUseCase {
 
     let exist: Responsible | Student | School | null | undefined
 
-    if (access === Role.RESPONSIBLE)
+    if (access === Role.RESPONSIBLE) {
       exist = await this.responsibleRepository.findByCPF(NumberNormalizer(responsible?.cpf!))
+    }
 
-    if (access === Role.SCHOOL)
+    if (access === Role.SCHOOL) {
       exist = await this.schoolRepository.findByCNPJ(NumberNormalizer(school?.cnpj!))
+    }
 
-    if (access === Role.STUDENT)
+    if (access === Role.STUDENT) {
       exist = await this.studentRepository.findByCPF(NumberNormalizer(student?.cpf!))
+    }
 
     if (exist)
       throw new ApplicationException('Dados já estão em uso', {

@@ -5,7 +5,7 @@ export const BaseQuerySchema = vine.object({
 })
 
 export const BaseQueryPaginateSchema = vine.object({
-  ...BaseQuerySchema.getProperties(),
+  ...BaseQuerySchema.clone().getProperties(),
   page: vine.number().positive().min(1).optional(),
   per_page: vine.number().positive().min(1).optional(),
 })

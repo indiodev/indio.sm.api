@@ -4,7 +4,7 @@ import { BaseSeeder } from '@adonisjs/lucid/seeders'
 
 export default class extends BaseSeeder {
   async run(): Promise<void> {
-    const exist = await User.query().where('email', 'admin@jedais.com.br').first()
+    const exist = await User.query().where('email', 'master@escolarize.com').first()
 
     if (exist) return
 

@@ -12,3 +12,8 @@ export enum PaymentStatus {
   ANALYSIS = 'ANALYSIS',
   // CANCELED = 'CANCELED',
 }
+
+export enum StudentClassStatus {
+  RESERVE = 'RESERVE',
+  EFFECTIVE = 'EFFECTIVE',
+}

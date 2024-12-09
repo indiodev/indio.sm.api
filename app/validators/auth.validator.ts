@@ -15,9 +15,9 @@ export const AuthSignUpSchema = vine.object({
   name: vine.string().trim(),
   email: vine.string().email().trim(),
   password: vine.string().trim().minLength(8),
-  responsible: ResponsibleSchema.optional(),
-  school: SchoolSchema.optional(),
-  student: StudentSchema.optional(),
+  responsible: ResponsibleSchema.clone().optional(),
+  school: SchoolSchema.clone().optional(),
+  student: StudentSchema.clone().optional(),
   access: vine.enum(Role),
 })
 

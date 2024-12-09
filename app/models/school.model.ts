@@ -1,8 +1,9 @@
 import Base from '#models/base.model'
-import User from '#models/user.model'
 import Course from '#models/course.model'
+import User from '#models/user.model'
 import { belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import Class from './class.model.js'
 
 export default class School extends Base {
   @column()
@@ -17,9 +18,15 @@ export default class School extends Base {
   })
   declare userId: number
 
+  @column()
+  declare slug: string
+
   @belongsTo(() => User)
   declare user: BelongsTo<typeof User>
 
   @hasMany(() => Course)
   declare courses: HasMany<typeof Course>
+
+  @hasMany(() => Class)
+  declare classes: HasMany<typeof Class>
 }

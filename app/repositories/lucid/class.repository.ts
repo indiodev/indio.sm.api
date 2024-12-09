@@ -1,5 +1,5 @@
 import ClassRepository from '#contracts/class.repository'
-import { Create, QueryPaginate, Update } from '#dtos/base.dto'
+import { Create, Query, QueryPaginate, Update } from '#dtos/base.dto'
 import Model from '#models/class.model'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 
@@ -23,5 +23,15 @@ export default class LucidClassRepository implements ClassRepository {
 
   async paginate(query: QueryPaginate<typeof Model>): Promise<ModelPaginatorContract<Model>> {
     return await Model.query().paginate(query.page!, query.per_page)
+  }
+
+  async findById(id: number): Promise<Model | null> {
+    return await Model.query().where('id', id).first()
+  }
+
+  async list(query: Query<typeof Model>): Promise<Model[] | null> {
+    return await Model.query().if(query.schoolId, (s) =>
+      s.where('school_id', query.schoolId!).preload('courses')
+    )
   }
 }
