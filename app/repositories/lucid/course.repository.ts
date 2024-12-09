@@ -1,9 +1,9 @@
+import CourseRepository from '#contracts/course.repository'
 import { Create, QueryPaginate, Update } from '#dtos/base.dto'
 import Model from '#models/course.model'
-import { CourseRepository } from '#repositories/interfaces/course.repository'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 
-export default class LucidCourseRepository implements CourseRepository<typeof Model> {
+export default class LucidCourseRepository implements CourseRepository {
   constructor() {}
 
   async create(payload: Create<typeof Model>): Promise<Model> {

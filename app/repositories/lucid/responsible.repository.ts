@@ -1,9 +1,9 @@
+import ResponsibleRepository from '#contracts/responsible.repository'
 import { Create, QueryPaginate, Update } from '#dtos/base.dto'
 import Model from '#models/responsible.model'
-import { ResponsibleRepository } from '#repositories/interfaces/responsible.repository'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 
-export default class LucidResponsibleRepository implements ResponsibleRepository<typeof Model> {
+export default class LucidResponsibleRepository implements ResponsibleRepository {
   constructor() {}
 
   async create(payload: Create<typeof Model>): Promise<Model> {

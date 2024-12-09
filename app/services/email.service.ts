@@ -5,9 +5,11 @@ import { SendEmailPasswordChangeConfirmationTemplate } from '#templates/email/se
 import { SendGenericConfirmationEmailTemplate } from '#templates/email/send_email_to_confirmation_signup'
 import { SendEmailToResetPasswordTemplate } from '#templates/email/send_email_to_reset_password'
 import { EMAIL_SENDER } from '#utils/constant'
+import { inject } from '@adonisjs/core'
 import sgMail from '@sendgrid/mail'
 
 // ja ta quase tudo certo, precisamos de um seed com email valido e um email para que possamos cadastrar la no sendGrid
+@inject()
 export default class EmailService {
   private appName = env.get('APP_NAME')
 

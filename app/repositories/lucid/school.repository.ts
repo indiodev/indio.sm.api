@@ -1,9 +1,9 @@
+import SchoolRepository from '#contracts/school.repository'
 import { Create, QueryPaginate, Update } from '#dtos/base.dto'
 import Model from '#models/school.model'
-import { SchoolRepository } from '#repositories/interfaces/school.repository'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 
-export default class LucidSchoolRepository implements SchoolRepository<typeof Model> {
+export default class LucidSchoolRepository implements SchoolRepository {
   constructor() {}
 
   async create(payload: Create<typeof Model>): Promise<Model> {

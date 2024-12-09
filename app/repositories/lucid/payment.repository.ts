@@ -1,9 +1,9 @@
+import PaymentRepository from '#contracts/payment.repository'
 import { Create, QueryPaginate, Update } from '#dtos/base.dto'
 import Model from '#models/payment.model'
-import { PaymentRepository } from '#repositories/interfaces/payment.repository'
 import { ModelPaginatorContract } from '@adonisjs/lucid/types/model'
 
-export default class LucidPaymentRepository implements PaymentRepository<typeof Model> {
+export default class LucidPaymentRepository implements PaymentRepository {
   constructor() {}
 
   async create(payload: Create<typeof Model>): Promise<Model> {

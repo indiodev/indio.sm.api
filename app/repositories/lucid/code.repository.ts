@@ -1,7 +1,7 @@
+import CodeRepository from '#contracts/code.repository'
 import Model from '#models/code.model'
-import { CodeRepository } from '#repositories/interfaces/code.repository'
 
-export default class LucidCodeRepository implements CodeRepository<typeof Model> {
+export default class LucidCodeRepository implements CodeRepository {
   constructor() {}
 
   async findByIdentifier(identifier: string): Promise<Model | null> {

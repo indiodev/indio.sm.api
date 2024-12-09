@@ -14,9 +14,9 @@
     "typecheck": "tsc --noEmit"
   },
   "imports": {
+    "#providers/*": "./providers/*.js",
     "#controllers/*": "./app/controllers/*.js",
     "#repositories/*": "./app/repositories/*.js",
-    "#providers": "./app/providers/*.js",
     "#dtos/*": "./app/dtos/*.js",
     "#routes/*": "./app/routes/*.js",
     "#exceptions/*": "./app/exceptions/*.js",
@@ -28,14 +28,16 @@
     "#events/*": "./app/events/*.js",
     "#middleware/*": "./app/middleware/*.js",
     "#validators/*": "./app/validators/*.js",
-    "#providers/*": "./app/providers/*.js",
     "#policies/*": "./app/policies/*.js",
     "#abilities/*": "./app/abilities/*.js",
     "#database/*": "./database/*.js",
     "#start/*": "./start/*.js",
     "#tests/*": "./tests/*.js",
     "#config/*": "./config/*.js",
-    "#templates/*": "./app/templates/*.js"
+    "#templates/*": "./app/templates/*.js",
+    "#use-case/*": "./app/use-case/*.js",
+    "#contracts/*": "./app/contracts/*.js",
+    "#factories/*": "./app/factories/*.js"
   },
   "devDependencies": {
     "@adonisjs/assembler": "^7.8.2",
