@@ -36,8 +36,14 @@ export default class extends BaseSeeder {
             <p class="space-y-2">Ideal para alunos novos, este curso ensina os fundamentos do uso do computador e navegação na internet de maneira lúdica e interativa.</p>
         `,
         schedule: '7-9',
-        audience: 'Infantil (Novos alunos)',
-        days_of_week: 'Segunda a Sexta',
+        tags: [
+          'Infantil',
+          'Novos alunos',
+          '6 a 10 anos',
+          'Segunda a Sexta',
+          'R$ 200,00',
+          '10% de desconto',
+        ],
       },
       {
         code: 'T2',
@@ -48,8 +54,13 @@ export default class extends BaseSeeder {
             <p class="space-y-2">Este curso é para quem já conhece o básico e deseja aprender ferramentas e programas mais avançados para melhorar a produtividade.</p>
         `,
         schedule: '9-11',
-        days_of_week: 'Segunda a Sexta',
-        audience: 'Alunos que realizaram o Curso de Informática Básica',
+        tags: [
+          'Segunda a Sexta',
+          'Requisitos: Informática Básica',
+          '10 a 13 anos',
+          'R$ 200,00',
+          '10% de desconto',
+        ],
       },
       {
         code: 'T3',
@@ -60,8 +71,13 @@ export default class extends BaseSeeder {
             <p class="space-y-2">Aprenda a resolver problemas complexos, otimizar sistemas e utilizar recursos avançados do computador.</p>
         `,
         schedule: '13-15',
-        days_of_week: 'Segunda a Sexta',
-        audience: 'Alunos que realizaram o Curso de Informática Intermediária',
+        tags: [
+          'Segunda a Sexta',
+          'Requisitos: Informática Intermediária',
+          '10 a 14 anos',
+          'R$ 200,00',
+          '10% de desconto',
+        ],
       },
       {
         code: 'T4',
@@ -72,8 +88,13 @@ export default class extends BaseSeeder {
             <p class="space-y-2">Este curso ensina fundamentos de lógica de programação por meio da criação de jogos utilizando a plataforma Scratch.</p>
         `,
         schedule: '15-17',
-        days_of_week: 'Segunda a Sexta',
-        audience: 'Alunos que realizaram o Curso de Informática Avançada',
+        tags: [
+          'Segunda a Sexta',
+          'Requisitos: Informática Avançada',
+          '10 à 14 anos',
+          'R$ 200,00',
+          '10% de desconto',
+        ],
       },
       {
         code: 'T5',
@@ -84,8 +105,14 @@ export default class extends BaseSeeder {
             <p class="space-y-2">Aprenda a utilizar o Canva para criar designs profissionais, como posts, apresentações e muito mais. Ideal para adultos que desejam desenvolver habilidades em design gráfico.</p>
         `,
         schedule: '19-21',
-        audience: 'Adultos',
-        days_of_week: 'Segunda a Sexta',
+        tags: [
+          'Segunda a Sexta',
+          'Requisitos: Informática Avançada',
+          '16 anos',
+          'adultos',
+          'R$ 200,00',
+          '10% de desconto',
+        ],
       },
       {
         code: 'T6',
@@ -96,10 +123,14 @@ export default class extends BaseSeeder {
             <p class="space-y-2">Domine tecnologias como HTML, CSS e JavaScript para criar páginas web modernas e funcionais. Ideal para quem busca atuar como desenvolvedor front-end.</p>
         `,
         schedule: '8-11',
-        days_of_week: 'Sábado',
-        audience: 'Alunos que realizaram o Curso de Informática Avançada',
-
-        //  (sábado)
+        tags: [
+          'Sábado',
+          'Requisitos: Informática Avançada',
+          '16 anos',
+          'Adultos',
+          'R$ 200,00',
+          '10% de desconto',
+        ],
       },
       {
         code: 'T7',
@@ -110,9 +141,14 @@ export default class extends BaseSeeder {
             <p class="space-y-2">Aprofunde-se em ferramentas e programas para melhorar sua produtividade e capacidade digital. Aula prática aos sábados.</p>
         `,
         schedule: '14-17',
-        days_of_week: 'Sábado',
-        // (sábado)
-        audience: 'Alunos que realizaram o Curso de Informática Básica',
+        tags: [
+          'Sábado',
+          'Requisitos: Informática Básica',
+          '16 anos',
+          'Adultos',
+          'R$ 200,00',
+          '10% de desconto',
+        ],
       },
     ]
 
@@ -121,6 +157,7 @@ export default class extends BaseSeeder {
         title: item.title,
         description: item.description,
         price: 200,
+        tags: item.tags,
       }))
     )
 
@@ -131,15 +168,13 @@ export default class extends BaseSeeder {
 
       const reference = BASE?.find((item) => item.code === code)!
 
-      const [start_hour, final_hour] = reference.schedule.split('-')
+      const [start_hour, final_hour] = reference?.schedule?.split('-')
 
       await course.related('classes').create({
         capacity: 20,
         start_hour: DateTime.local().set({ hour: Number(start_hour), minute: 0, second: 0 }),
         final_hour: DateTime.local().set({ hour: Number(final_hour), minute: 0, second: 0 }),
         schoolId: school.id,
-        audience: reference?.audience,
-        days_of_week: reference?.days_of_week,
         code,
       })
     }

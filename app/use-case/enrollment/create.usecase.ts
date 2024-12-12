@@ -3,7 +3,6 @@ import ResponsibleRepository from '#contracts/responsible.repository'
 import UserRepository from '#contracts/user.repository'
 import { CreateEnrollment } from '#dtos/enrollment.dto'
 import ApplicationException from '#exceptions/application.exception'
-import Class from '#models/class.model'
 import Responsible from '#models/responsible.model'
 import Student from '#models/student.model'
 import { Role, StudentClassStatus } from '#utils/enum.util'
@@ -30,17 +29,24 @@ export default class EnrollmentCreateUseCase {
         status: 404,
       })
 
-    const hasVacancy = _class.number_of_student_accepted <= _class.capacity
+    const [student_class] = await db
+      .table('student_class')
+      .insert({
+        student_id: student?.id,
+        class_id: _class.id,
+        status: StudentClassStatus.RESERVE,
+      })
+      .returning('id')
 
-    await db.table('student_class').insert({
+    await _class
+      .merge({
+        number_of_student_on_reserve: _class.number_of_student_on_reserve + 1,
+      })
+      .save()
+
+    await db.table('school_student').insert({
       student_id: student?.id,
-      class_id: _class.id,
-      status: hasVacancy ? StudentClassStatus.EFFECTIVE : StudentClassStatus.RESERVE,
-    })
-
-    await this.updateClass({
-      class: _class,
-      hasVacancy,
+      school_id: _class?.schoolId,
     })
 
     if (payload?.responsible) {
@@ -52,14 +58,27 @@ export default class EnrollmentCreateUseCase {
           student_id: student?.id,
           responsible_id: created?.id,
         })
-        return
+        await db.table('school_responsible').insert({
+          responsible_id: created?.id,
+          school_id: _class?.schoolId,
+        })
+        return student_class
       }
 
       await db.table('student_responsible').insert({
         student_id: student?.id,
         responsible_id: responsible?.id,
       })
+
+      await db.table('school_responsible').insert({
+        responsible_id: responsible?.id,
+        school_id: _class?.schoolId,
+      })
+
+      return student_class
     }
+
+    return student_class
   }
 
   private async createResponsible(
@@ -103,22 +122,5 @@ export default class EnrollmentCreateUseCase {
       cpf,
       phone,
     })
-  }
-
-  private async updateClass(payload: { class: Class; hasVacancy: boolean }): Promise<void> {
-    if (payload.hasVacancy) {
-      await payload.class
-        .merge({
-          number_of_student_accepted: payload.class.number_of_student_accepted + 1,
-        })
-        .save()
-      return
-    }
-
-    await payload.class
-      .merge({
-        number_of_student_on_reserve: payload.class.number_of_student_on_reserve + 1,
-      })
-      .save()
   }
 }

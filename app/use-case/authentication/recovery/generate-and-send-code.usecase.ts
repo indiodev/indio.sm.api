@@ -19,6 +19,8 @@ export default class AuthenticationRecoveryGenerateAndSendCodeUseCase {
 
     const code = Math.floor(100000 + Math.random() * 900000).toString()
 
+    console.log({ code })
+
     await user?.related('code').create({ identifier: code })
 
     // await this.emailService.senResetPasswordEmail(user, code)

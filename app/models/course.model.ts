@@ -20,6 +20,17 @@ export default class Course extends Base {
   })
   declare schoolId: number
 
+  @column({
+    prepare(value) {
+      const json = JSON.stringify(value)
+      return json
+    },
+    serialize(value) {
+      return value
+    },
+  })
+  declare tags: string[]
+
   @belongsTo(() => School)
   declare school: BelongsTo<typeof School>
 

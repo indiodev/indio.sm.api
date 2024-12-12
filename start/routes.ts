@@ -12,8 +12,10 @@ import '#routes/administrator/responsible.route'
 import '#routes/authentication.route'
 import '#routes/enrollment/enrollment.route'
 import '#routes/enrollment/school.route'
-
 import '#routes/responsible/payment.route'
+import '#routes/school/dashboard.route'
+import '#routes/school/responsible.route'
+import '#routes/school/student.route'
 
 import router from '@adonisjs/core/services/router'
 

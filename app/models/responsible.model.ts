@@ -4,6 +4,7 @@ import Student from '#models/student.model'
 import User from '#models/user.model'
 import { belongsTo, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
+import School from './school.model.js'
 
 export default class Responsible extends Base {
   @column()
@@ -36,4 +37,14 @@ export default class Responsible extends Base {
     pivotTimestamps: true,
   })
   declare students: ManyToMany<typeof Student>
+
+  @manyToMany(() => School, {
+    localKey: 'id', //chave da model pai (Responsible)
+    relatedKey: 'id', // chave da model relacionada (School)
+    pivotForeignKey: 'responsible_id', // chave estrangeira Responsible -> School
+    pivotRelatedForeignKey: 'school_id', // chave estrangeira School -> Responsible
+    pivotTable: 'school_responsible', //
+    pivotTimestamps: true,
+  })
+  declare schools: ManyToMany<typeof School>
 }

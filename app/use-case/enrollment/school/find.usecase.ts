@@ -18,7 +18,7 @@ export default class EnrollmentSchoolFindUseCase {
     }
 
     await school.load('user')
-    await school.load('classes', (c) => c.preload('courses'))
+    await school.load('classes', (c) => c.orderBy('id', 'asc').preload('courses'))
 
     const { classes } = school
     const transformed = classes.map((c) => {

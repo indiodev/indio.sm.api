@@ -14,8 +14,6 @@ export default class extends BaseSchema {
 
       table.integer('number_of_student_accepted').notNullable().defaultTo(0)
       table.integer('number_of_student_on_reserve').notNullable().defaultTo(0)
-      table.string('days_of_week').notNullable()
-      table.string('audience').notNullable()
 
       table
         .integer('school_id')

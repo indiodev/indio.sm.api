@@ -47,15 +47,6 @@ export default class Class extends Base {
   })
   declare schoolId: number
 
-  @column({
-    serializeAs: 'days_of_week',
-    columnName: 'days_of_week',
-  })
-  declare days_of_week: string
-
-  @column()
-  declare audience: string
-
   @manyToMany(() => Course, {
     localKey: 'id', //chave da model pai (Class)
     relatedKey: 'id', // chave da model relacionada (Course)
