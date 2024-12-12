@@ -17,6 +17,8 @@ export default class extends BaseSchema {
       table.string('days_of_week').notNullable()
       table.string('audience').notNullable()
 
+      table.string('age_group').notNullable()
+
       table
         .integer('school_id')
         .nullable()

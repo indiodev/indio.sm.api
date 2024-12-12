@@ -38,6 +38,7 @@ export default class extends BaseSeeder {
         schedule: '7-9',
         audience: 'Infantil (Novos alunos)',
         days_of_week: 'Segunda a Sexta',
+        age_group: '6 à 10 anos',
       },
       {
         code: 'T2',
@@ -50,6 +51,7 @@ export default class extends BaseSeeder {
         schedule: '9-11',
         days_of_week: 'Segunda a Sexta',
         audience: 'Alunos que realizaram o Curso de Informática Básica',
+        age_group: '10 à 13 anos',
       },
       {
         code: 'T3',
@@ -62,6 +64,7 @@ export default class extends BaseSeeder {
         schedule: '13-15',
         days_of_week: 'Segunda a Sexta',
         audience: 'Alunos que realizaram o Curso de Informática Intermediária',
+        age_group: '12 à 14 anos',
       },
       {
         code: 'T4',
@@ -74,6 +77,7 @@ export default class extends BaseSeeder {
         schedule: '15-17',
         days_of_week: 'Segunda a Sexta',
         audience: 'Alunos que realizaram o Curso de Informática Avançada',
+        age_group: '10 à 14 anos',
       },
       {
         code: 'T5',
@@ -86,6 +90,7 @@ export default class extends BaseSeeder {
         schedule: '19-21',
         audience: 'Adultos',
         days_of_week: 'Segunda a Sexta',
+        age_group: 'A partir dos 16 anos',
       },
       {
         code: 'T6',
@@ -98,7 +103,7 @@ export default class extends BaseSeeder {
         schedule: '8-11',
         days_of_week: 'Sábado',
         audience: 'Alunos que realizaram o Curso de Informática Avançada',
-
+        age_group: 'A partir dos 15 anos',
         //  (sábado)
       },
       {
@@ -113,6 +118,7 @@ export default class extends BaseSeeder {
         days_of_week: 'Sábado',
         // (sábado)
         audience: 'Alunos que realizaram o Curso de Informática Básica',
+        age_group: 'Adultos',
       },
     ]
 
@@ -139,6 +145,7 @@ export default class extends BaseSeeder {
         final_hour: DateTime.local().set({ hour: Number(final_hour), minute: 0, second: 0 }),
         schoolId: school.id,
         audience: reference?.audience,
+        age_group: reference?.age_group,
         days_of_week: reference?.days_of_week,
         code,
       })

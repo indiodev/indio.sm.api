@@ -56,6 +56,12 @@ export default class Class extends Base {
   @column()
   declare audience: string
 
+  @column({
+    serializeAs: 'age_group',
+    columnName: 'age_group',
+  })
+  declare age_group: string
+
   @manyToMany(() => Course, {
     localKey: 'id', //chave da model pai (Class)
     relatedKey: 'id', // chave da model relacionada (Course)
