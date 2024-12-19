@@ -5,6 +5,8 @@ export type SchoolResponsiblePaginate = BaseQueryPaginate & { school: School | n
 
 export type SchoolStudentPaginate = BaseQueryPaginate & { school: School | null | undefined }
 
+export type SchoolCoursePaginate = BaseQueryPaginate & { school: School | null | undefined }
+
 export type SchoolDashboard = { school: School | null | undefined }
 
 export interface SchoolDashboardMetric {
