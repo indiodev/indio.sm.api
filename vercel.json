@@ -19,8 +19,8 @@
   ],
   "rewrites": [
     {
-      "source": "/var/__sapper__/assets/server",
-      "destination": "build/bin/server.js"
+      "source": "/server",
+      "destination": "/build/bin/server.js"
     }
   ]
 }
