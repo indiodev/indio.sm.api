@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node build/bin/server.js",
     "build": "node ace build && ls -al",
-    "postinstall": "ls -al",
+    "postinstall": "ls -al build/bin",
     "dev": "node ace serve --hmr",
     "test": "node ace test",
     "lint": "eslint .",
