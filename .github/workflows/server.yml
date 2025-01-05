@@ -1,0 +1,12 @@
+name: HTTP Request between 14 minutes
+
+on:
+  schedule:
+    - cron: '*/14 * * * *'
+
+jobs:
+  render-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GET - Route /
+        run: curl https://escolarize-api.onrender.com/
