@@ -13,7 +13,7 @@
 
   "rewrites": [
     {
-      "source": "/var/task/__sapper__/build/server/",
+      "source": "/var/task/__sapper__/build/server/server.js",
       "destination": "/build/bin/server.js"
     }
   ]
