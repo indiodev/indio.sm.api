@@ -3,18 +3,18 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "vercel-sapper"
+      "use": "now-sapper"
     },
     {
       "src": "build/bin/server.js",
       "use": "@vercel/node"
     }
   ],
-
-  "rewrites": [
+  "routes": [
     {
-      "source": "/var/task/__sapper__/build/server/server.js",
-      "destination": "/build/bin/server.js"
+      "src": "/(.*)",
+      "dest": "build/bin/server.js",
+      "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"]
     }
   ]
 }
